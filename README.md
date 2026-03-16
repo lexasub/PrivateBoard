@@ -51,17 +51,17 @@ docker build --output ./client-rootfs ./prod/client
 **Run:**
 ```bash
 # Run via docker (import from rootfs)
-docker import tlrdraw-auth-server.tar tlrdraw-auth-server:latest
-docker import tlrdraw-auth-client.tar tlrdraw-auth-client:latest
+docker import privateboard-server.tar privateboard-server:latest
+docker import privateboard-client.tar privateboard-client:latest
 
-docker run -d --name tlrdraw-server -p 3001:3001 -v tlrdraw_data:/app/data -e JWT_SECRET=your-secret tlrdraw-auth-server
-docker run -d --name tlrdraw-client -p 80:80 --link tlrdraw-server:server tlrdraw-auth-client
+docker run -d --name privateboard-server -p 3001:3001 -v tlrdraw_data:/app/data -e JWT_SECRET=your-secret privateboard-server
+docker run -d --name privateboard-client -p 80:80 --link privateboard-server:server privateboard-client
 ```
 
 **Or run without Docker (from rootfs):**
 ```bash
 # Extract
-tar -xzf tlrdraw-auth-server.tar.gz
+tar -xzf privateboard-server.tar.gz
 cd server-rootfs
 
 # Run server (bun required)

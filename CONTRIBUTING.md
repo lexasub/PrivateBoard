@@ -1,6 +1,6 @@
-# Contributing to tlrdraw-auth
+# Contributing to PrivateBoard
 
-Thank you for considering contributing to tlrdraw-auth! This document provides guidelines and instructions for contributing.
+Thank you for considering contributing to PrivateBoard! This document provides guidelines and instructions for contributing.
 
 ## 🎯 How to Contribute
 
@@ -128,8 +128,8 @@ When contributing:
 
 ```bash
 # Clone fork
-git clone https://github.com/lexasub/tlrdraw-auth.git
-cd tlrdraw-auth
+git clone https://github.com/lexasub/PrivateBoard.git
+cd PrivateBoard
 
 # Install server dependencies
 cd server
@@ -172,10 +172,10 @@ bun run dev
 
 ## 📞 Questions?
 
-- **General questions:** Open a [Discussion](https://github.com/lexasub/tlrdraw-auth/discussions)
-- **Bug reports:** Open an [Issue](https://github.com/lexasub/tlrdraw-auth/issues)
-- **Security issues:** Open a [Security Advisory](https://github.com/lexasub/tlrdraw-auth/security/advisories/new)
+- **General questions:** Open a [Discussion](https://github.com/lexasub/PrivateBoard/discussions)
+- **Bug reports:** Open an [Issue](https://github.com/lexasub/PrivateBoard/issues)
+- **Security issues:** Open a [Security Advisory](https://github.com/lexasub/PrivateBoard/security/advisories/new)
 
 ## 🙏 Thank You!
 
-All contributions are appreciated, no matter how small. tlrdraw-auth is built by the community, for the community.
+All contributions are appreciated, no matter how small. PrivateBoard is built by the community, for the community.

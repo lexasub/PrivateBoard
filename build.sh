@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "🔨 Building tlrdraw-auth project..."
+echo "🔨 Building PrivateBoard project..."
 
 # Очищаем prod директорию
 rm -rf ./prod
@@ -38,20 +38,23 @@ echo ""
 echo "✅ Build complete! Output in ./prod/"
 echo ""
 echo "📋 To build Docker images:"
-echo "   docker build -t tlrdraw-auth-server ./prod/server"
-echo "   docker build -t tlrdraw-auth-client ./prod/client"
+echo "   docker build -t privateboard-server ./prod/server"
+echo "   docker build -t privateboard-client ./prod/client"
+
 echo ""
 echo "🚀 To run:"
-echo "   docker run -d --name tlrdraw-server -p 3001:3001 tlrdraw-auth-server"
-echo "   docker run -d --name tlrdraw-client -p 80:80 tlrdraw-auth-client"
+echo "   docker run -d --name privateboard-server -p 3001:3001 privateboard-server"
+echo "   docker run -d --name privateboard-client -p 80:80 privateboard-client"
+
 echo ""
 echo "💾 To export images:"
-echo "   docker save tlrdraw-auth-server | gzip > tlrdraw-auth-server.tar.gz"
-echo "   docker save tlrdraw-auth-client | gzip > tlrdraw-auth-client.tar.gz"
+echo "   docker save privateboard-server | gzip > privateboard-server.tar.gz"
+echo "   docker save privateboard-client | gzip > privateboard-client.tar.gz"
+
 echo ""
 echo "📥 To import images on another machine:"
-echo "   docker load < tlrdraw-auth-server.tar.gz"
-echo "   docker load < tlrdraw-auth-client.tar.gz"
+echo "   docker load < privateboard-server.tar.gz"
+echo "   docker load < privateboard-client.tar.gz"
 echo ""
 echo "   Client: http://localhost:80"
 echo "   Server: http://localhost:3001"

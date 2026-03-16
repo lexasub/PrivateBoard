@@ -1,7 +1,7 @@
 {
-  "name": "tldraw-server",
+  "name": "privateboard-server",
   "version": "1.0.0",
-  "description": "Tldraw auth server",
+  "description": "PrivateBoard authentication server",
   "main": "src/index.js",
   "type": "module",
   "scripts": {

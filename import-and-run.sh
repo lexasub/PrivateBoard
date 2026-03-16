@@ -2,8 +2,8 @@
 
 set -e
 
-SERVER_TAR="tlrdraw-auth-server.tar.gz"
-CLIENT_TAR="tlrdraw-auth-client.tar.gz"
+SERVER_TAR="privateboard-server.tar.gz"
+CLIENT_TAR="privateboard-client.tar.gz"
 
 docker network create tlrdraw-net 2>/dev/null || true
 
@@ -11,7 +11,7 @@ echo "=== Импорт образов ==="
 
 if [ -f "$SERVER_TAR" ]; then
     echo "Импорт сервера из $SERVER_TAR..."
-    docker import "$SERVER_TAR" tlrdraw-auth-server:latest
+    docker import "$SERVER_TAR" privateboard-server:latest
 else
     echo "Ошибка: $SERVER_TAR не найден"
     exit 1
@@ -19,7 +19,7 @@ fi
 
 if [ -f "$CLIENT_TAR" ]; then
     echo "Импорт клиента из $CLIENT_TAR..."
-    docker import "$CLIENT_TAR" tlrdraw-auth-client:latest
+    docker import "$CLIENT_TAR" privateboard-client:latest
 else
     echo "Ошибка: $CLIENT_TAR не найден"
     exit 1
@@ -37,14 +37,14 @@ docker run -d \
     -v tlrdraw_data:/app/data \
     -e JWT_SECRET=dev-secret-key \
     --workdir /app \
-    tlrdraw-auth-server:latest \
+    privateboard-server:latest \
     /usr/local/bin/bun run start
 
 docker run -d \
     --name tlrdraw-client \
     --network tlrdraw-net \
     -p 8080:80 \
-    tlrdraw-auth-client:latest \
+    privateboard-client:latest \
     sh -c "mkdir -p /var/log/nginx && exec nginx -g 'daemon off;'"
 
 echo ""

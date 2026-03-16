@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "🔨 Building and exporting tlrdraw-auth rootfs..."
+echo "🔨 Building and exporting PrivateBoard rootfs..."
 
 ./build.sh
 
@@ -19,8 +19,8 @@ docker build --output ./exports/client-rootfs ./prod/client
 echo ""
 echo "📦 Архивирование..."
 
-tar -czf tlrdraw-auth-server.tar.gz -C ./exports/server-rootfs .
-tar -czf tlrdraw-auth-client.tar.gz -C ./exports/client-rootfs .
+tar -czf privateboard-server.tar.gz -C ./exports/server-rootfs .
+tar -czf privateboard-client.tar.gz -C ./exports/client-rootfs .
 
 rm -rf ./exports
 
