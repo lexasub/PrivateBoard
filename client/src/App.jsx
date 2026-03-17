@@ -8,6 +8,7 @@ import { BoardEditor } from './components/boards/BoardEditor.jsx'
 import { ShareBoardPage } from './components/boards/ShareBoardPage.jsx'
 import { ShareLinkPage } from './components/boards/ShareLinkPage.jsx'
 import { AdminPanel } from './components/boards/AdminPanel.jsx'
+import NotFound from './components/common/NotFound.jsx'
 
 // Protected Route wrapper
 const ProtectedRoute = ({ children }) => {
@@ -59,6 +60,7 @@ function App() {
             </AdminRoute>
           } />
           <Route path="/" element={<Navigate to="/boards" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
