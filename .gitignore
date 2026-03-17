@@ -34,3 +34,6 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# tldraw local assets (exception to client/node_modules/)
+!client/public/tldraw-assets/

@@ -22,6 +22,12 @@ cp client/nginx.conf prod/client/
 cp client/package.json prod/client/
 cp client/bun.lock prod/client/
 
+# Копируем tldraw assets для автономной работы
+if [ -d "client/public/tldraw-assets" ]; then
+    echo "📦 Copying tldraw assets..."
+    cp -r client/public/tldraw-assets prod/client/
+fi
+
 # Копируем сервер
 echo "📦 Copying server..."
 cp server/package.json server/bun.lock server/Dockerfile prod/server/

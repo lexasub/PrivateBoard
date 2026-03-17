@@ -9,7 +9,7 @@ COPY package.json bun.lock* ./
 RUN bun install \
     && rm -rf /root/.bun/install/cache /root/.npm
 
-# Копируем исходники
+# Копируем исходники (включая public/tldraw-assets)
 COPY . .
 
 # Собираем
@@ -18,8 +18,11 @@ RUN bun run build
 # Финальный образ с nginx
 FROM docker.io/nginx:alpine
 
-# Копируем собранный клиент
+# Копируем dist из builder
 COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Копируем tldraw assets (из контекста сборки)
+COPY tldraw-assets /usr/share/nginx/html/tldraw-assets
 
 # Копируем конфиг nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
