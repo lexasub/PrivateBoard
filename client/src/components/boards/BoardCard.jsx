@@ -61,7 +61,7 @@ export function BoardCard({ board }) {
 
   const handleDelete = async (e) => {
     e.stopPropagation()
-    if (!confirm('Delete this board?')) return
+    if (!window.confirm(`Delete board "${board.name}"?`)) return
     try {
       await boardService.deleteBoard(board.id)
       window.location.reload()
