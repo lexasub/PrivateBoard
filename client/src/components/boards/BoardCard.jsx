@@ -3,7 +3,7 @@ import { useAuth } from '../../hooks/useAuth.jsx'
 import { Button } from '../common/Button.jsx'
 import { boardService } from '../../services/board.service.js'
 
-export function BoardCard({ board }) {
+export function BoardCard({ board, isSelected, onSelect }) {
   const navigate = useNavigate()
   const { user } = useAuth()
 
@@ -70,6 +70,15 @@ export function BoardCard({ board }) {
     }
   }
 
+  const checkboxStyles = {
+    position: 'absolute',
+    bottom: '15px',
+    right: '15px',
+    transform: 'scale(1.5)', 
+    cursor: 'pointer',
+    zIndex: 10, 
+  }
+
   return (
     <div
       style={cardStyles}
@@ -85,6 +94,16 @@ export function BoardCard({ board }) {
       )}
       {(board.access_type === 'owner' || user?.role === 'admin') && (
         <>
+        <input 
+          type="checkbox" 
+          checked={isSelected}
+          style={checkboxStyles}
+          onClick={(e) => e.stopPropagation()}
+          onChange={(e) => {
+            e.stopPropagation(); 
+            onSelect();
+          }}
+        />
           <Button
             variant="primary"
             size="sm"
