@@ -15,6 +15,11 @@ export function BoardCard({ board }) {
     cursor: 'pointer',
     transition: 'transform 0.2s, box-shadow 0.2s',
     position: 'relative',
+    color: '#000',
+  }
+
+  const titleStyles = {
+    color: '#000',
   }
 
   const metaStyles = {
@@ -75,7 +80,7 @@ export function BoardCard({ board }) {
       style={cardStyles}
       onClick={() => navigate(`/board/${board.id}`)}
     >
-      <h3>{board.name}</h3>
+      <h3 style={titleStyles}>{board.name}</h3>
       <p style={metaStyles}>Owner: {board.owner_username}</p>
       <p style={metaStyles}>
         Updated: {new Date(board.updated_at).toLocaleString()}

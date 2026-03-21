@@ -12,6 +12,7 @@ export function AdminPanel() {
   const [selectedUserFilter, setSelectedUserFilter] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [theme, setTheme] = useState(() => localStorage.getItem('app-theme') || 'light')
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
@@ -24,6 +25,10 @@ export function AdminPanel() {
     const interval = setInterval(loadData, 5000)
     return () => clearInterval(interval)
   }, [])
+
+  useEffect(() => {
+    document.body.className = theme === 'light' ? 'light-theme' : ''
+  }, [theme])
 
   const loadData = async () => {
     try {
@@ -78,6 +83,9 @@ export function AdminPanel() {
     padding: '20px',
     maxWidth: '1200px',
     margin: '0 auto',
+    minHeight: '100vh',
+    background: theme === 'light' ? '#f5f5f5' : '#1e1e1e',
+    color: theme === 'light' ? '#000' : '#fff',
   }
 
   const headerStyles = {
@@ -115,7 +123,7 @@ export function AdminPanel() {
     display: 'flex',
     gap: '10px',
     marginBottom: '20px',
-    borderBottom: '2px solid #e0e0e0',
+    borderBottom: `2px solid ${theme === 'light' ? '#e0e0e0' : '#444'}`,
     paddingBottom: '10px',
   }
 
@@ -125,7 +133,7 @@ export function AdminPanel() {
     border: 'none',
     cursor: 'pointer',
     fontSize: '16px',
-    color: '#666',
+    color: theme === 'light' ? '#666' : '#ccc',
   }
 
   const activeTabStyles = {
@@ -139,10 +147,11 @@ export function AdminPanel() {
   }
 
   const tabContentStyles = {
-    background: 'white',
+    background: theme === 'light' ? 'white' : '#2a2a2a',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    color: theme === 'light' ? '#000' : '#fff',
   }
 
   const tableStyles = {
@@ -153,14 +162,14 @@ export function AdminPanel() {
   const thStyles = {
     textAlign: 'left',
     padding: '12px',
-    borderBottom: '2px solid #e0e0e0',
-    color: '#666',
+    borderBottom: `2px solid ${theme === 'light' ? '#e0e0e0' : '#444'}`,
+    color: theme === 'light' ? '#666' : '#ccc',
     fontSize: '14px',
   }
 
   const tdStyles = {
     padding: '12px',
-    borderBottom: '1px solid #e0e0e0',
+    borderBottom: `1px solid ${theme === 'light' ? '#e0e0e0' : '#444'}`,
   }
 
   const filterSectionStyles = {
@@ -171,9 +180,15 @@ export function AdminPanel() {
   }
 
   const emptyStyles = {
-    color: '#666',
+    color: theme === 'light' ? '#666' : '#999',
     textAlign: 'center',
     padding: '40px',
+  }
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+    localStorage.setItem('app-theme', newTheme)
   }
 
   return (
@@ -182,6 +197,9 @@ export function AdminPanel() {
         <h1>Admin Panel</h1>
         <div style={userInfoStyles}>
           <span>Admin: {user?.username}</span>
+          <Button variant="secondary" onClick={toggleTheme}>
+            {theme === 'light' ? 'Dark' : 'Light'}
+          </Button>
           <Button variant="secondary" onClick={() => navigate('/boards')}>
             Back to Boards
           </Button>

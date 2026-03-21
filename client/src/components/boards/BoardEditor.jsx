@@ -231,11 +231,6 @@ export function BoardEditor() {
     fontWeight: '500',
   }
 
-  const autoSaveStyles = {
-    color: '#2ed573',
-    fontSize: '14px',
-  }
-
   if (loading) return <div>Loading...</div>
 
   return (
@@ -266,7 +261,7 @@ export function BoardEditor() {
         <Button variant="secondary" onClick={toggleTheme}>
           {theme === 'light' ? 'Dark' : 'Light'}
         </Button>
-        <span style={autoSaveStyles}>Auto-saving...</span>
+        <span style={{ color: '#2ed573', fontSize: '14px' }}>Auto-saving...</span>
       </div>
 
       <div style={{ position: 'absolute', top: 50, left: 0, right: 0, bottom: 0 }}>
@@ -278,6 +273,7 @@ export function BoardEditor() {
           tools={[CustomNoteTool]}
           overrides={overrides}
           components={components}
+          theme={theme}
         />
       </div>
     </div>
