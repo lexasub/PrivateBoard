@@ -12,17 +12,27 @@ import { boardService } from '../../services/board.service.js'
 import { createWebSocket, sendMessage, leaveRoom } from '../../utils/websocket.js'
 import { CustomNoteShapeUtil, CustomArrowBindingUtil, CustomNoteTool } from '../../custom-shapes/index.ts'
 import { Button } from '../common/Button.jsx'
+import { DarkModeToggle } from '../common/DarkModeToggle.jsx'
+import { useDarkMode } from '../../hooks/useDarkMode.js'
 
 const DEBUG_WS = false
 
-// Custom toolbar - uses tldraw hooks directly
 const CustomToolbar = () => {
   const tools = useTools()
   const isCustomNoteSelected = useIsToolSelected(tools.customNote)
+  const [isDarkMode, setIsDarkMode] = useDarkMode()
 
   return (
     <DefaultToolbar>
       <TldrawUiMenuItem {...tools.customNote} isSelected={isCustomNoteSelected} />
+      <button 
+        className="tlui-button tlui-button__icon" 
+        style={{ pointerEvents: 'all', fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} 
+        onClick={() => setIsDarkMode(!isDarkMode)}
+        title="Toggle Black Board"
+      >
+        {isDarkMode ? '💡' : '⬛'}
+      </button>
       <DefaultToolbarContent />
     </DefaultToolbar>
   )
@@ -62,6 +72,7 @@ export function ShareLinkPage() {
   const wsRef = useRef(null)
   const { login, user } = useAuth()
   const isRemoteChange = useRef(false)
+  const [isDarkMode] = useDarkMode()
 
   useEffect(() => {
     loadBoard()
@@ -71,6 +82,12 @@ export function ShareLinkPage() {
       }
     }
   }, [token])
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.user.updateUserPreferences({ colorScheme: isDarkMode ? 'dark' : 'light' });
+    }
+  }, [isDarkMode]);
 
   useEffect(() => {
     if (user) {
@@ -153,6 +170,7 @@ export function ShareLinkPage() {
 
   const handleMount = (editor) => {
     editorRef.current = editor
+    editor.user.updateUserPreferences({ colorScheme: isDarkMode ? 'dark' : 'light' });
 
     if (board?.data && board.data !== '{}') {
       try {
@@ -222,7 +240,7 @@ export function ShareLinkPage() {
   }
 
   const cardStyles = {
-    background: 'white',
+    background: 'var(--card-bg)',
     padding: '40px',
     borderRadius: '12px',
     boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
@@ -233,7 +251,7 @@ export function ShareLinkPage() {
   const titleStyles = {
     textAlign: 'center',
     marginBottom: '20px',
-    color: '#333',
+    color: 'var(--text-primary)',
   }
 
   const errorStyles = {
@@ -253,7 +271,9 @@ export function ShareLinkPage() {
 
   const inputStyles = {
     padding: '12px',
-    border: '2px solid #e0e0e0',
+    border: '2px solid var(--border-color)',
+    background: 'var(--bg-secondary)',
+    color: 'var(--text-primary)',
     borderRadius: '6px',
     fontSize: '16px',
   }
@@ -264,7 +284,7 @@ export function ShareLinkPage() {
     left: 0,
     right: 0,
     height: '50px',
-    background: 'white',
+    background: 'var(--header-bg)',
     display: 'flex',
     alignItems: 'center',
     padding: '0 20px',
@@ -274,19 +294,19 @@ export function ShareLinkPage() {
   }
 
   const permissionIndicatorStyles = {
-    background: '#e0e0e0',
+    background: 'var(--indicator-bg)',
     padding: '4px 8px',
     borderRadius: '4px',
     fontSize: '12px',
-    color: '#666',
+    color: 'var(--text-secondary)',
   }
 
   const usersIndicatorStyles = {
-    background: '#e8f4ff',
+    background: 'var(--users-bg)',
     padding: '4px 12px',
     borderRadius: '12px',
     fontSize: '13px',
-    color: '#0066cc',
+    color: 'var(--users-text)',
     fontWeight: '500',
   }
 
@@ -311,7 +331,7 @@ export function ShareLinkPage() {
       <div style={containerStyles}>
         <div style={cardStyles}>
           <h2 style={titleStyles}>{board?.name}</h2>
-          <p style={{ textAlign: 'center', color: '#666' }}>
+          <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
             {permission === 'read' ? 'Read-only access' : 'Access denied'}
           </p>
           {!loggedIn && (
@@ -362,6 +382,7 @@ export function ShareLinkPage() {
             Login to Save
           </Button>
         )}
+        <DarkModeToggle />
       </div>
 
       <div style={{ position: 'absolute', top: 50, left: 0, right: 0, bottom: 0 }}>

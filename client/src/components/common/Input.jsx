@@ -10,7 +10,9 @@ export function Input({
 }) {
   const baseStyles = {
     padding: '12px',
-    border: '2px solid #e0e0e0',
+    border: '2px solid var(--border-color)',
+    background: 'var(--bg-secondary)',
+    color: 'var(--text-primary)',
     borderRadius: '6px',
     fontSize: '16px',
     transition: 'border-color 0.3s',
@@ -44,7 +46,9 @@ export function Select({
 }) {
   const baseStyles = {
     padding: '8px',
-    border: '2px solid #e0e0e0',
+    border: '2px solid var(--border-color)',
+    background: 'var(--bg-secondary)',
+    color: 'var(--text-primary)',
     borderRadius: '6px',
     fontSize: '14px',
     cursor: 'pointer',

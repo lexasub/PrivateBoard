@@ -156,17 +156,18 @@ export function ShareBoardPage() {
     border: '2px solid #2ed573',
     borderRadius: '6px',
     fontSize: '14px',
-    background: 'white',
+    background: 'var(--bg-secondary)',
+    color: 'var(--text-primary)',
   }
 
   const linkInfoStyles = {
     marginTop: '10px',
-    color: '#666',
+    color: 'var(--text-secondary)',
     fontSize: '14px',
   }
 
   const shareSectionStyles = {
-    background: 'white',
+    background: 'var(--card-bg)',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
@@ -180,7 +181,7 @@ export function ShareBoardPage() {
   }
 
   const sharesListStyles = {
-    background: 'white',
+    background: 'var(--card-bg)',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
@@ -194,14 +195,14 @@ export function ShareBoardPage() {
   const thStyles = {
     textAlign: 'left',
     padding: '12px',
-    borderBottom: '2px solid #e0e0e0',
-    color: '#666',
+    borderBottom: '2px solid var(--border-color)',
+    color: 'var(--text-secondary)',
     fontSize: '14px',
   }
 
   const tdStyles = {
     padding: '12px',
-    borderBottom: '1px solid #e0e0e0',
+    borderBottom: '1px solid var(--border-color)',
   }
 
   const permissionBadgeStyles = {
@@ -214,7 +215,7 @@ export function ShareBoardPage() {
   }
 
   const emptyStyles = {
-    color: '#666',
+    color: 'var(--text-secondary)',
     textAlign: 'center',
     padding: '20px',
   }

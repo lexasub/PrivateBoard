@@ -115,7 +115,7 @@ export function AdminPanel() {
     display: 'flex',
     gap: '10px',
     marginBottom: '20px',
-    borderBottom: '2px solid #e0e0e0',
+    borderBottom: '2px solid var(--border-color)',
     paddingBottom: '10px',
   }
 
@@ -125,7 +125,7 @@ export function AdminPanel() {
     border: 'none',
     cursor: 'pointer',
     fontSize: '16px',
-    color: '#666',
+    color: 'var(--text-secondary)',
   }
 
   const activeTabStyles = {
@@ -139,7 +139,7 @@ export function AdminPanel() {
   }
 
   const tabContentStyles = {
-    background: 'white',
+    background: 'var(--card-bg)',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
@@ -153,14 +153,14 @@ export function AdminPanel() {
   const thStyles = {
     textAlign: 'left',
     padding: '12px',
-    borderBottom: '2px solid #e0e0e0',
-    color: '#666',
+    borderBottom: '2px solid var(--border-color)',
+    color: 'var(--text-secondary)',
     fontSize: '14px',
   }
 
   const tdStyles = {
     padding: '12px',
-    borderBottom: '1px solid #e0e0e0',
+    borderBottom: '1px solid var(--border-color)',
   }
 
   const filterSectionStyles = {
@@ -171,7 +171,7 @@ export function AdminPanel() {
   }
 
   const emptyStyles = {
-    color: '#666',
+    color: 'var(--text-secondary)',
     textAlign: 'center',
     padding: '40px',
   }

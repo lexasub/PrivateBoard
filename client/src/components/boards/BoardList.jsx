@@ -6,6 +6,7 @@ import { BoardCard } from './BoardCard.jsx'
 import { ChangePasswordModal } from '../common/ChangePasswordModal.jsx'
 import { Input } from '../common/Input.jsx'
 import { Button } from '../common/Button.jsx'
+import { DarkModeToggle } from '../common/DarkModeToggle.jsx'
 
 export function BoardList() {
   const [boards, setBoards] = useState([])
@@ -73,7 +74,7 @@ export function BoardList() {
     alignItems: 'center',
     marginBottom: '30px',
     paddingBottom: '20px',
-    borderBottom: '2px solid #e0e0e0',
+    borderBottom: '2px solid var(--border-color)',
   }
 
   const userInfoStyles = {
@@ -105,7 +106,7 @@ export function BoardList() {
   const emptyStyles = {
     gridColumn: '1 / -1',
     textAlign: 'center',
-    color: '#666',
+    color: 'var(--text-secondary)',
     padding: '40px',
   }
 
@@ -134,6 +135,7 @@ export function BoardList() {
           <Button variant="danger" onClick={logout}>
             Logout
           </Button>
+          <DarkModeToggle />
         </div>
       </header>
 

@@ -8,7 +8,7 @@ export function BoardCard({ board, isSelected, onSelect }) {
   const { user } = useAuth()
 
   const cardStyles = {
-    background: 'white',
+    background: 'var(--card-bg)',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
@@ -18,15 +18,15 @@ export function BoardCard({ board, isSelected, onSelect }) {
   }
 
   const metaStyles = {
-    color: '#666',
+    color: 'var(--text-secondary)',
     fontSize: '14px',
     marginTop: '5px',
   }
 
   const badgeStyles = {
     display: 'inline-block',
-    background: '#e0e0e0',
-    color: '#666',
+    background: 'var(--indicator-bg)',
+    color: 'var(--text-secondary)',
     padding: '2px 8px',
     borderRadius: '4px',
     fontSize: '12px',

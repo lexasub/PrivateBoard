@@ -8,7 +8,7 @@ export function AuthLayout({ children, title, subtitle }) {
   }
 
   const cardStyles = {
-    background: 'white',
+    background: 'var(--card-bg)',
     padding: '40px',
     borderRadius: '12px',
     boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
@@ -19,13 +19,13 @@ export function AuthLayout({ children, title, subtitle }) {
   const titleStyles = {
     textAlign: 'center',
     marginBottom: '10px',
-    color: '#333',
+    color: 'var(--text-primary)',
   }
 
   const subtitleStyles = {
     textAlign: 'center',
     marginBottom: '30px',
-    color: '#666',
+    color: 'var(--text-secondary)',
     fontWeight: 'normal',
   }
 

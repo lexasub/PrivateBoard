@@ -25,7 +25,7 @@ export function Header({
     alignItems: 'center',
     marginBottom: '30px',
     paddingBottom: '20px',
-    borderBottom: '2px solid #e0e0e0',
+    borderBottom: '2px solid var(--border-color)',
   }
 
   const userInfoStyles = {
@@ -101,7 +101,7 @@ export function EditorHeader({
     left: 0,
     right: 0,
     height: '50px',
-    background: 'white',
+    background: 'var(--header-bg)',
     display: 'flex',
     alignItems: 'center',
     padding: '0 20px',
@@ -111,19 +111,19 @@ export function EditorHeader({
   }
 
   const permissionIndicatorStyles = {
-    background: '#e0e0e0',
+    background: 'var(--indicator-bg)',
     padding: '4px 8px',
     borderRadius: '4px',
     fontSize: '12px',
-    color: '#666',
+    color: 'var(--text-secondary)',
   }
 
   const usersIndicatorStyles = {
-    background: '#e8f4ff',
+    background: 'var(--users-bg)',
     padding: '4px 12px',
     borderRadius: '12px',
     fontSize: '13px',
-    color: '#0066cc',
+    color: 'var(--users-text)',
     fontWeight: '500',
   }
 
