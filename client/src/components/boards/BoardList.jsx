@@ -9,6 +9,7 @@ import { Button } from '../common/Button.jsx'
 
 export function BoardList() {
   const [boards, setBoards] = useState([])
+  const [selectedBoards, setSelectedBoards] = useState([]);
   const [newBoardName, setNewBoardName] = useState('')
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [theme, setTheme] = useState(() => localStorage.getItem('app-theme') || 'light')
@@ -48,6 +49,26 @@ export function BoardList() {
       loadBoards()
     } catch (err) {
       console.error('Failed to create board', err)
+    }
+  }
+  
+  const toggleBoardSelection = (boardId) => {
+    setSelectedBoards((prev) => 
+      prev.includes(boardId) 
+        ? prev.filter(id => id !== boardId) 
+        : [...prev, boardId]               
+    )
+  }
+
+  const handleBulkDelete = async () => {
+    if (!window.confirm(`Are you sure you want to delete selected ${selectedBoards.length} boards?`)) return;
+    
+    try {
+      await Promise.all(selectedBoards.map(id => boardService.deleteBoard(id)));
+      setSelectedBoards([]); 
+      loadBoards(); 
+    } catch (err) {
+      console.error('Failed to delete boards', err);
     }
   }
 
@@ -144,11 +165,16 @@ export function BoardList() {
         <Button variant="success" size="lg" onClick={createBoard}>
           Create Board
         </Button>
+        {selectedBoards.length > 0 && (
+        <Button variant="danger" size="lg" onClick={handleBulkDelete}>
+        Delete Selected ({selectedBoards.length})
+        </Button>
+        )}
       </div>
 
       <div style={boardsGridStyles}>
         {boards.map((board) => (
-          <BoardCard key={board.id} board={board} />
+          <BoardCard key={board.id} board={board} isSelected={selectedBoards.includes(board.id)}  onSelect={() => toggleBoardSelection(board.id)}/>
         ))}
         {boards.length === 0 && (
           <p style={emptyStyles}>No boards yet. Create your first board!</p>

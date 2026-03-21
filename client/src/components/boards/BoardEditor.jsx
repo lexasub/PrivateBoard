@@ -59,6 +59,7 @@ export function BoardEditor() {
   const wsRef = useRef(null)
   const { user } = useAuth()
   const isRemoteChange = useRef(false)
+  const [saveStatus, setSaveStatus] = useState('saved');
   
   // Use local assets instead of CDN
   const assetUrls = useLocalTldrawAssets()
@@ -88,7 +89,7 @@ export function BoardEditor() {
         const { type, payload } = message
         switch (type) {
           case 'users-list':
-            setConnectedUsers(payload)
+            setConnectedUsers([...new Set(payload)])
             break
           case 'user-joined':
             setConnectedUsers(prev => {
@@ -131,6 +132,24 @@ export function BoardEditor() {
     }
   }
 
+  const handleSaveBoard = async () => {
+    if (!editorRef.current) return;
+    
+    setSaveStatus('saving'); // 🟡 1. Update UI to Saving
+    const snapshot = editorRef.current.getSnapshot();
+    
+    try {
+      await boardService.updateBoard(id, {
+        name: board?.name,
+        data: snapshot
+      });
+      setSaveStatus('saved'); // 🟢 2. Update UI to Saved
+    } catch (err) {
+      console.error('Save failed', err);
+      setSaveStatus('failed'); // 🔴 3. Update UI to Failed
+    }
+  };
+
   const handleMount = (editor) => {
     editorRef.current = editor
 
@@ -171,18 +190,9 @@ export function BoardEditor() {
       scope: 'document'
     })
 
-    const saveInterval = setInterval(async () => {
-      if (!editorRef.current) return
-      const snapshot = editorRef.current.getSnapshot()
-      try {
-        await boardService.updateBoard(id, {
-          name: board?.name,
-          data: snapshot
-        })
-      } catch (err) {
-        console.error('Auto-save failed', err)
-      }
-    }, 3000)
+    const saveInterval = setInterval(() => {
+      handleSaveBoard();
+    }, 3000);
 
     return () => {
       clearInterval(saveInterval)
@@ -233,6 +243,28 @@ export function BoardEditor() {
 
   if (loading) return <div>Loading...</div>
 
+  const renderSaveStatus = () => {
+    switch (saveStatus) {
+      case 'saving':
+        return <span style={{ color: '#feca57', fontSize: '14px' }}>🟡 Saving...</span>;
+      case 'failed':
+        return (
+          <span style={{ color: '#ff6b6b', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            🔴 Save failed
+            <button 
+              onClick={handleSaveBoard} 
+              style={{ padding: '2px 6px', fontSize: '12px', cursor: 'pointer', borderRadius: '4px', border: '1px solid #ff6b6b', background: 'white', color: '#ff6b6b' }}
+            >
+              Retry
+            </button>
+          </span>
+        );
+      case 'saved':
+      default:
+        return <span style={{ color: '#2ed573', fontSize: '14px' }}>🟢 Saved</span>;
+    }
+  };
+
   return (
     <div style={{ position: 'fixed', inset: 0 }}>
       <div style={editorHeaderStyles}>
@@ -255,13 +287,10 @@ export function BoardEditor() {
         )}
         {connectedUsers.length > 0 && (
           <span style={usersIndicatorStyles}>
-            {connectedUsers.join(', ')}
+            👥 {[...new Set(connectedUsers)].join(', ')}
           </span>
         )}
-        <Button variant="secondary" onClick={toggleTheme}>
-          {theme === 'light' ? 'Dark' : 'Light'}
-        </Button>
-        <span style={{ color: '#2ed573', fontSize: '14px' }}>Auto-saving...</span>
+        {renderSaveStatus()}
       </div>
 
       <div style={{ position: 'absolute', top: 50, left: 0, right: 0, bottom: 0 }}>

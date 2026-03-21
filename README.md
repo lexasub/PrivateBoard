@@ -54,7 +54,7 @@ docker build --output ./client-rootfs ./prod/client
 docker import privateboard-server.tar privateboard-server:latest
 docker import privateboard-client.tar privateboard-client:latest
 
-docker run -d --name privateboard-server -p 3001:3001 -v tlrdraw_data:/app/data -e JWT_SECRET=your-secret privateboard-server
+docker run -d --name privateboard-server -p 3001:3001 -v privateboard_data:/app/data -e JWT_SECRET=your-secret privateboard-server
 docker run -d --name privateboard-client -p 80:80 --link privateboard-server:server privateboard-client
 ```
 

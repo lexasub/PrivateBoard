@@ -5,7 +5,7 @@ set -e
 SERVER_TAR="privateboard-server.tar.gz"
 CLIENT_TAR="privateboard-client.tar.gz"
 
-docker network create tlrdraw-net 2>/dev/null || true
+docker network create privateboard-net2>/dev/null || true
 
 echo "=== Импорт образов ==="
 
@@ -28,21 +28,21 @@ fi
 echo ""
 echo "=== Запуск контейнеров ==="
 
-docker rm -f tlrdraw-server tlrdraw-client 2>/dev/null || true
+docker rm -f privateboard-server privateboard-client 2>/dev/null || true
 
 docker run -d \
-    --name tlrdraw-server \
-    --network tlrdraw-net \
+    --name privateboard-server \
+    --network privateboard-net\
     -p 9999:3001 \
-    -v tlrdraw_data:/app/data \
+    -v privateboard_data:/app/data \
     -e JWT_SECRET=dev-secret-key \
     --workdir /app \
     privateboard-server:latest \
     /usr/local/bin/bun run start
 
 docker run -d \
-    --name tlrdraw-client \
-    --network tlrdraw-net \
+    --name privateboard-client \
+    --network privateboard-net\
     -p 8080:80 \
     privateboard-client:latest \
     sh -c "mkdir -p /var/log/nginx && exec nginx -g 'daemon off;'"
