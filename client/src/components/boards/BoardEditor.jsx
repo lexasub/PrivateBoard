@@ -53,6 +53,7 @@ export function BoardEditor() {
   const [board, setBoard] = useState(null)
   const [loading, setLoading] = useState(true)
   const [connectedUsers, setConnectedUsers] = useState([])
+  const [theme, setTheme] = useState(() => localStorage.getItem('tldraw-theme') || 'light')
   const navigate = useNavigate()
   const editorRef = useRef(null)
   const wsRef = useRef(null)
@@ -72,6 +73,15 @@ export function BoardEditor() {
       }
     }
   }, [id])
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+    localStorage.setItem('tldraw-theme', newTheme)
+    if (editorRef.current) {
+      editorRef.current.user.updateUserPreferences({ colorScheme: newTheme })
+    }
+  }
 
   const connectWebSocket = () => {
     const ws = createWebSocket(id, user, {
@@ -143,6 +153,8 @@ export function BoardEditor() {
   const handleMount = (editor) => {
     editorRef.current = editor
 
+    editor.user.updateUserPreferences({ colorScheme: theme })
+
     if (board?.data && board.data !== '{}') {
       try {
         const snapshot = JSON.parse(board.data)
@@ -197,7 +209,7 @@ export function BoardEditor() {
     left: 0,
     right: 0,
     height: '50px',
-    background: 'white',
+    background: theme === 'light' ? 'white' : '#1e1e1e',
     display: 'flex',
     alignItems: 'center',
     padding: '0 20px',
@@ -206,20 +218,26 @@ export function BoardEditor() {
     zIndex: 9999,
   }
 
+  const h2Styles = {
+    flex: 1,
+    margin: 0,
+    color: theme === 'light' ? '#000' : '#fff',
+  }
+
   const permissionIndicatorStyles = {
-    background: '#e0e0e0',
+    background: theme === 'light' ? '#e0e0e0' : '#333',
     padding: '4px 8px',
     borderRadius: '4px',
     fontSize: '12px',
-    color: '#666',
+    color: theme === 'light' ? '#666' : '#ccc',
   }
 
   const usersIndicatorStyles = {
-    background: '#e8f4ff',
+    background: theme === 'light' ? '#e8f4ff' : '#1a3a52',
     padding: '4px 12px',
     borderRadius: '12px',
     fontSize: '13px',
-    color: '#0066cc',
+    color: theme === 'light' ? '#0066cc' : '#66b3ff',
     fontWeight: '500',
   }
 
@@ -253,7 +271,7 @@ export function BoardEditor() {
         <Button variant="secondary" onClick={() => navigate('/boards')}>
           ← Back
         </Button>
-        <h2 style={{ flex: 1, margin: 0 }}>{board?.name}</h2>
+        <h2 style={h2Styles}>{board?.name}</h2>
         {(board?.isOwner || board?.permission === 'admin') && (
           <Button
             variant="primary"
@@ -284,6 +302,7 @@ export function BoardEditor() {
           tools={[CustomNoteTool]}
           overrides={overrides}
           components={components}
+          theme={theme}
         />
       </div>
     </div>
