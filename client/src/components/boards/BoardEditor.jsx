@@ -13,6 +13,7 @@ import { createWebSocket, sendMessage, leaveRoom } from '../../utils/websocket.j
 import { CustomNoteShapeUtil, CustomArrowBindingUtil, CustomNoteTool } from '../../custom-shapes/index.ts'
 import { Button } from '../common/Button.jsx'
 import { useLocalTldrawAssets } from '../../hooks/useLocalTldrawAssets.js'
+import { Spinner } from '../common/Spinner.jsx'
 
 const DEBUG_WS = false
 
@@ -223,7 +224,7 @@ export function BoardEditor() {
     fontWeight: '500',
   }
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <Spinner />
 
   const renderSaveStatus = () => {
     switch (saveStatus) {
