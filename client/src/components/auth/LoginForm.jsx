@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth.jsx'
 import { AuthLayout } from './AuthLayout.jsx'
 import { Input } from '../common/Input.jsx'
 import { Button } from '../common/Button.jsx'
+import { DarkModeToggle } from '../common/DarkModeToggle.jsx'
 
 export function LoginForm() {
   const [isLogin, setIsLogin] = useState(true)
@@ -46,7 +47,7 @@ export function LoginForm() {
   const toggleStyles = {
     textAlign: 'center',
     marginTop: '20px',
-    color: '#666',
+    color: 'var(--text-secondary)',
   }
 
   const hintStyles = {
@@ -93,6 +94,10 @@ export function LoginForm() {
       </p>
 
       {isLogin && <p style={hintStyles}>Default: admin / admin</p>}
+      
+      <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+        <DarkModeToggle />
+      </div>
     </AuthLayout>
   )
 }

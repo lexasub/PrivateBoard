@@ -10,7 +10,7 @@ export function Loading({ text = 'Loading...', size = 'md' }) {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
-    color: '#666',
+    color: 'var(--text-secondary)',
     ...sizes[size],
   }
 
@@ -22,8 +22,8 @@ export function InlineLoading({ text = 'Loading...' }) {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '20px',
-    color: '#666',
+    fontSize: '18px',
+    color: 'var(--text-secondary)',
   }
 
   return <div style={styles}>{text}</div>

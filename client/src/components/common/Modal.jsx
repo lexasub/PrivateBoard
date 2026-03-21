@@ -13,7 +13,7 @@ export function Modal({
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'rgba(0,0,0,0.5)',
+    background: 'var(--overlay-bg)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -21,7 +21,7 @@ export function Modal({
   }
 
   const modalStyles = {
-    background: 'white',
+    background: 'var(--card-bg)',
     padding: '30px',
     borderRadius: '12px',
     width: '100%',
@@ -31,7 +31,7 @@ export function Modal({
   const titleStyles = {
     textAlign: 'center',
     marginBottom: '20px',
-    color: '#333',
+    color: 'var(--text-primary)',
   }
 
   return (

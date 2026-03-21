@@ -19,7 +19,7 @@ export function Button({
 
   const variants = {
     primary: { background: '#667eea', color: 'white' },
-    secondary: { background: '#f1f2f6', color: '#333' },
+    secondary: { background: 'var(--indicator-bg)', color: 'var(--text-primary)' },
     success: { background: '#2ed573', color: 'white' },
     danger: { background: '#ff4757', color: 'white' },
     warning: { background: '#ffa502', color: 'white' },

@@ -13,17 +13,27 @@ import { createWebSocket, sendMessage, leaveRoom } from '../../utils/websocket.j
 import { CustomNoteShapeUtil, CustomArrowBindingUtil, CustomNoteTool } from '../../custom-shapes/index.ts'
 import { Button } from '../common/Button.jsx'
 import { useLocalTldrawAssets } from '../../hooks/useLocalTldrawAssets.js'
+import { DarkModeToggle } from '../common/DarkModeToggle.jsx'
+import { useDarkMode } from '../../hooks/useDarkMode.js'
 
 const DEBUG_WS = false
 
-// Custom toolbar component - uses tldraw hooks directly
 const CustomToolbar = () => {
   const tools = useTools()
   const isCustomNoteSelected = useIsToolSelected(tools.customNote)
+  const [isDarkMode, setIsDarkMode] = useDarkMode()
 
   return (
     <DefaultToolbar>
       <TldrawUiMenuItem {...tools.customNote} isSelected={isCustomNoteSelected} />
+      <button 
+        className="tlui-button tlui-button__icon" 
+        style={{ pointerEvents: 'all', fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} 
+        onClick={() => setIsDarkMode(!isDarkMode)}
+        title="Toggle Black Board"
+      >
+        {isDarkMode ? '💡' : '⬛'}
+      </button>
       <DefaultToolbarContent />
     </DefaultToolbar>
   )
@@ -59,6 +69,7 @@ export function BoardEditor() {
   const { user } = useAuth()
   const isRemoteChange = useRef(false)
   const [saveStatus, setSaveStatus] = useState('saved');
+  const [isDarkMode] = useDarkMode();
   
   // Use local assets instead of CDN
   const assetUrls = useLocalTldrawAssets()
@@ -72,6 +83,12 @@ export function BoardEditor() {
       }
     }
   }, [id])
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.user.updateUserPreferences({ colorScheme: isDarkMode ? 'dark' : 'light' });
+    }
+  }, [isDarkMode]);
 
   const connectWebSocket = () => {
     const ws = createWebSocket(id, user, {
@@ -142,6 +159,7 @@ export function BoardEditor() {
 
   const handleMount = (editor) => {
     editorRef.current = editor
+    editor.user.updateUserPreferences({ colorScheme: isDarkMode ? 'dark' : 'light' });
 
     if (board?.data && board.data !== '{}') {
       try {
@@ -197,7 +215,7 @@ export function BoardEditor() {
     left: 0,
     right: 0,
     height: '50px',
-    background: 'white',
+    background: 'var(--header-bg)',
     display: 'flex',
     alignItems: 'center',
     padding: '0 20px',
@@ -207,19 +225,19 @@ export function BoardEditor() {
   }
 
   const permissionIndicatorStyles = {
-    background: '#e0e0e0',
+    background: 'var(--indicator-bg)',
     padding: '4px 8px',
     borderRadius: '4px',
     fontSize: '12px',
-    color: '#666',
+    color: 'var(--text-secondary)',
   }
 
   const usersIndicatorStyles = {
-    background: '#e8f4ff',
+    background: 'var(--users-bg)',
     padding: '4px 12px',
     borderRadius: '12px',
     fontSize: '13px',
-    color: '#0066cc',
+    color: 'var(--users-text)',
     fontWeight: '500',
   }
 
@@ -273,6 +291,7 @@ export function BoardEditor() {
           </span>
         )}
         {renderSaveStatus()}
+        <DarkModeToggle />
       </div>
 
       <div style={{ position: 'absolute', top: 50, left: 0, right: 0, bottom: 0 }}>
