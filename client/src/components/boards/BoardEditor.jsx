@@ -12,7 +12,6 @@ import { boardService } from '../../services/board.service.js'
 import { createWebSocket, sendMessage, leaveRoom } from '../../utils/websocket.js'
 import { CustomNoteShapeUtil, CustomArrowBindingUtil, CustomNoteTool } from '../../custom-shapes/index.ts'
 import { Button } from '../common/Button.jsx'
-import { useLocalTldrawAssets } from '../../hooks/useLocalTldrawAssets.js'
 
 const DEBUG_WS = false
 
@@ -59,9 +58,6 @@ export function BoardEditor() {
   const { user } = useAuth()
   const isRemoteChange = useRef(false)
   const [saveStatus, setSaveStatus] = useState('saved');
-  
-  // Use local assets instead of CDN
-  const assetUrls = useLocalTldrawAssets()
 
   useEffect(() => {
     loadBoard()
@@ -277,7 +273,6 @@ export function BoardEditor() {
 
       <div style={{ position: 'absolute', top: 50, left: 0, right: 0, bottom: 0 }}>
         <Tldraw
-          assetUrls={assetUrls}
           onMount={handleMount}
           shapeUtils={[CustomNoteShapeUtil]}
           bindingUtils={[CustomArrowBindingUtil]}
