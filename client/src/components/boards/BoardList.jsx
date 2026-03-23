@@ -12,6 +12,7 @@ export function BoardList() {
   const [selectedBoards, setSelectedBoards] = useState([]);
   const [newBoardName, setNewBoardName] = useState('')
   const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [theme, setTheme] = useState(() => localStorage.getItem('app-theme') || 'light')
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
@@ -20,6 +21,16 @@ export function BoardList() {
     const interval = setInterval(loadBoards, 3000)
     return () => clearInterval(interval)
   }, [])
+
+  useEffect(() => {
+    document.body.className = theme === 'light' ? 'light-theme' : ''
+  }, [theme])
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+    localStorage.setItem('app-theme', newTheme)
+  }
 
   const loadBoards = async () => {
     try {
@@ -65,6 +76,9 @@ export function BoardList() {
     padding: '20px',
     maxWidth: '1200px',
     margin: '0 auto',
+    minHeight: '100vh',
+    background: theme === 'light' ? '#fff' : '#1e1e1e',
+    color: theme === 'light' ? '#000' : '#fff',
   }
 
   const headerStyles = {
@@ -73,7 +87,7 @@ export function BoardList() {
     alignItems: 'center',
     marginBottom: '30px',
     paddingBottom: '20px',
-    borderBottom: '2px solid #e0e0e0',
+    borderBottom: `2px solid ${theme === 'light' ? '#e0e0e0' : '#444'}`,
   }
 
   const userInfoStyles = {
@@ -105,7 +119,7 @@ export function BoardList() {
   const emptyStyles = {
     gridColumn: '1 / -1',
     textAlign: 'center',
-    color: '#666',
+    color: theme === 'light' ? '#666' : '#999',
     padding: '40px',
   }
 
@@ -125,6 +139,9 @@ export function BoardList() {
             onClick={() => setShowPasswordModal(true)}
           >
             Change Password
+          </Button>
+          <Button variant="secondary" onClick={toggleTheme}>
+            {theme === 'light' ? 'Dark' : 'Light'}
           </Button>
           {user?.role === 'admin' && (
             <Button variant="primary" onClick={() => navigate('/admin')}>
