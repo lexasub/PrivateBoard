@@ -21,8 +21,8 @@ FROM docker.io/nginx:alpine
 # Копируем dist из builder
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Копируем tldraw assets (из контекста сборки)
-COPY tldraw-assets /usr/share/nginx/html/tldraw-assets
+# Копируем tldraw assets из builder (где они в public/tldraw-assets)
+COPY --from=builder /app/public/tldraw-assets /usr/share/nginx/html/tldraw-assets
 
 # Копируем конфиг nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
