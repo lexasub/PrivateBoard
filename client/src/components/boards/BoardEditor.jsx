@@ -219,7 +219,7 @@ export function BoardEditor() {
     fontWeight: '500',
   }
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <Spinner />
 
   const renderSaveStatus = () => {
     switch (saveStatus) {
